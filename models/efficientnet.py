@@ -1,5 +1,5 @@
 import torch.nn as nn
-from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
+from torchvision.models import efficientnet_b2, EfficientNet_B2_Weights
 from conf.config import EfficientNetConfig
 
 class FoodVisionModel(nn.Module):
@@ -7,17 +7,17 @@ class FoodVisionModel(nn.Module):
         super().__init__()
         self.config = config
 
-        # 1. Loading parameters
-        weights = EfficientNet_B0_Weights.DEFAULT if config.pretrained else None
-        self.backbone = efficientnet_b0(weights=weights)
 
-        # 2. Gradient Freezing
+        weights = EfficientNet_B2_Weights.DEFAULT if config.pretrained else None
+        self.backbone = efficientnet_b2(weights=weights)
+
+        # Gradient Freezing
         if not config.fine_tune:
             for param in self.backbone.parameters():
                 param.requires_grad = False
         else:
             for param in self.backbone.parameters():
-                param.requires_grad = False
+                param.requires_grad = True
 
             total_blocks = len(self.backbone.features)
             

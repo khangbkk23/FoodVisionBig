@@ -106,7 +106,7 @@ def main():
 
     model = model.to(device)
 
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = AdamW(
         model.parameters(),
         lr=config.training.learning_rate,
