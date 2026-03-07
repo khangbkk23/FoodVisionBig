@@ -29,7 +29,7 @@ class Food101DataBuilder:
     
     def get_dataloaders(self):
         
-        train_ds, val_ds = self.build_datasets
+        train_ds, val_ds = self.build_datasets()
         
         train_loader = DataLoader(
             dataset=train_ds,
