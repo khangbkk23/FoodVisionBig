@@ -20,7 +20,7 @@ class TrainingConfig:
     weight_decay: float = 1e-4
     seed: int = 42
     device: str = "cuda"
-    checkpoint_dir: str = "checkpoints/"
+    checkpoint_dir: str = "model_checkpoints/"
 
 @dataclass
 class CustomCNNConfig:

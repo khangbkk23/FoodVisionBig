@@ -16,7 +16,7 @@ training:
   weight_decay: 0.0001
   seed: 42
   device: "cuda"
-  checkpoint_dir: "checkpoints/"
+  checkpoint_dir: "model_checkpoints/"
 
 custom_cnn:
   num_classes: 101
