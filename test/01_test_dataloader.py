@@ -9,11 +9,11 @@ from conf.config import DatasetConfig
 
 def test_dataloader_integrity():
     print("[INFO] Loading mock config via dataclass...")
-    mock_config = DatasetConfig(
+    mock_config = DatasetConfig (
         data_dir='data/',
         batch_size=32,
         num_workers=2,
-        pin_memory=False=
+        pin_memory=False
     )
 
     print("[INFO] Initializing DataBuilder...")
