@@ -21,6 +21,7 @@ class TrainingConfig:
     seed: int = 42
     device: str = "cuda"
     checkpoint_dir: str = "model_checkpoints/"
+    early_stopping_patience: int = 8
 
 @dataclass
 class CustomCNNConfig:

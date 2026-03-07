@@ -17,6 +17,7 @@ training:
   seed: 42
   device: "cuda"
   checkpoint_dir: "model_checkpoints/"
+  early_stopping_patience: 8
 
 custom_cnn:
   num_classes: 101

@@ -130,6 +130,9 @@ def main():
     )
 
     best_val_loss = float("inf")
+    
+    early_stopping_patience = config.training.early_stopping_patience
+    epochs_no_improve = 0
 
     history = {
         "train_loss": [],
@@ -181,7 +184,8 @@ def main():
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-
+            epochs_no_improve = 0
+            
             checkpoint_path = os.path.join(
                 config.training.checkpoint_dir,
                 f"{config.active_model_config.model_name}_best.pth"
@@ -198,7 +202,14 @@ def main():
             )
 
             print(f"[SAVE] New best model -> {checkpoint_path}")
+        else:
+            epochs_no_improve += 1
+            print(f"[INFO] No improvement for {epochs_no_improve} epoch(s) out of {early_stopping_patience}")
 
+            if epochs_no_improve >= early_stopping_patience:
+                print(f"\n[STOP] Early Stopping kích hoạt tại Epoch {epoch + 1}.")
+                print("[INFO] Quá trình huấn luyện đã bão hòa (Saturated).")
+                break
     total_time = time.time() - start_time
 
     print("\n[FINISHED] Training completed")
