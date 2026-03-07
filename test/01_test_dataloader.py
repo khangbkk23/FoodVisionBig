@@ -1,24 +1,20 @@
-# test/01_test_dataloader.py
 import sys
 import os
 import torch
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from dataset.builder import Food101DataBuilder
+from conf.config import DatasetConfig
 
 def test_dataloader_integrity():
-    print("[INFO] Loading mock config...")
-    mock_config = {
-        'dataset': {
-            'name': 'food101',
-            'data_dir': 'data/',
-            'image_size': 224,
-            'batch_size': 32,
-            'num_workers': 2,
-            'pin_memory': False,
-            'download': True
-        }
-    }
+    print("[INFO] Loading mock config via dataclass...")
+    mock_config = DatasetConfig(
+        data_dir='data/',
+        batch_size=32,
+        num_workers=2,
+        pin_memory=False=
+    )
 
     print("[INFO] Initializing DataBuilder...")
     try:
@@ -43,14 +39,13 @@ def test_dataloader_integrity():
     print(f"[TEST] Label shape: {labels.shape}")
     print(f"[TEST] Image dtype: {images.dtype}")
     print(f"[TEST] Label dtype: {labels.dtype}")
-    print(f"[TEST] Value range: Min={images.min():.4f}, Max={images.max():.4f}")
 
     print("[INFO] Running assertions...")
-    assert images.shape == (32, 3, 224, 224), "Assertion failed: Invalid image tensor shape!"
-    assert labels.shape == (32,), "Assertion failed: Invalid label tensor shape!"
-    assert isinstance(images, torch.Tensor), "Assertion failed: Images are not PyTorch Tensors!"
-    assert images.dtype == torch.float32, "Assertion failed: Expected float32 for images!"
-    assert labels.dtype == torch.long, "Assertion failed: Expected long for labels!"
+    assert images.shape == (mock_config.batch_size, 3, mock_config.image_size, mock_config.image_size), "Invalid shape!"
+    assert labels.shape == (mock_config.batch_size,), "Invalid label shape!"
+    assert isinstance(images, torch.Tensor), "Not a PyTorch Tensor!"
+    assert images.dtype == torch.float32, "Expected float32!"
+    assert labels.dtype == torch.long, "Expected long!"
 
     print("[SUCCESS] DataLoader integration test passed.")
 

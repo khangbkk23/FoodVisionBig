@@ -1,4 +1,6 @@
-# conf/config.yaml
+system:
+  active_model: "efficientnet"
+
 dataset:
   name: "food101"
   data_dir: "data/"
@@ -11,5 +13,21 @@ dataset:
 training:
   epochs: 50
   learning_rate: 0.001
-  weight_decay: 1e-4
+  weight_decay: 0.0001
   seed: 42
+  device: "cuda"
+  checkpoint_dir: "checkpoints/"
+
+custom_cnn:
+  num_classes: 101
+  model_name: "custom_cnn"
+  in_channels: 3
+  base_filters: 32
+  dropout_rate: 0.5
+
+efficientnet:
+  num_classes: 101
+  model_name: "efficientnet_b0"
+  pretrained: true
+  fine_tune: false
+  unfreeze_layers: 20

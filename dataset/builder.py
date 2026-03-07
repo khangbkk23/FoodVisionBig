@@ -2,14 +2,14 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision.datasets import Food101
 from .transforms import get_transforms
+from conf.config import DatasetConfig
 
 class Food101DataBuilder:
-    def __init__(self, config: dict):
-        self.cfg = config['dataset']
-        self.data_dir = self.cfg['data_dir']
+    def __init__(self, config: DatasetConfig):
+        self.cfg = config
         
-        self.train_transform = get_transforms(self.cfg['image_size'], is_train=True)
-        self.val_transform = get_transforms(self.cfg['image_size'], is_train=False)
+        self.train_transform = get_transforms(self.cfg.image_size, is_train=True)
+        self.val_transform = get_transforms(self.cfg.image_size, is_train=False)
     
     def build_datasets(self):
         train_dataset = Food101(
