@@ -7,7 +7,7 @@ from conf.config import DatasetConfig
 class Food101DataBuilder:
     def __init__(self, config: DatasetConfig):
         self.cfg = config
-        
+        self.data_dir = config.data_dir
         self.train_transform = get_transforms(self.cfg.image_size, is_train=True)
         self.val_transform = get_transforms(self.cfg.image_size, is_train=False)
     
@@ -15,36 +15,36 @@ class Food101DataBuilder:
         train_dataset = Food101(
             root=self.data_dir,
             split='train',
-            download=self.cfg['download'],
+            download=self.cfg.download,
             transform=self.train_transform
         )
         
         val_dataset = Food101(
             root=self.data_dir,
             split='test',
-            download=self.cfg['download'],
+            download=self.cfg.download,
             transform=self.val_transform
         )
         return train_dataset, val_dataset
     
     def get_dataloaders(self):
-        
         train_ds, val_ds = self.build_datasets()
         
         train_loader = DataLoader(
             dataset=train_ds,
-            batch_size=self.cfg['batch_size'],
+            batch_size=self.cfg.batch_size,  
             shuffle=True,
-            num_workers=self.cfg['num_workers'],
-            pin_memory=self.cfg['pin_memory'],
+            num_workers=self.cfg.num_workers,
+            pin_memory=self.cfg.pin_memory,  
             drop_last=True
         )
+        
         val_loader = DataLoader(
             dataset=val_ds,
-            batch_size=self.cfg['batch_size'],
+            batch_size=self.cfg.batch_size,
             shuffle=False,
-            num_workers=self.cfg['num_workers'],
-            pin_memory=self.cfg['pin_memory']
+            num_workers=self.cfg.num_workers,
+            pin_memory=self.cfg.pin_memory
         )
 
         return train_loader, val_loader

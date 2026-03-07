@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from conf.model_config import CustomCNNConfig
+from conf.config import CustomCNNConfig
 
 class CustomFoodCNN(nn.Module):
     def __init__(self, config: CustomCNNConfig):
