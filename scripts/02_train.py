@@ -7,6 +7,7 @@ import torch.nn as nn
 from torch.optim import AdamW
 from torch.amp import autocast, GradScaler
 from tqdm import tqdm
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -89,6 +90,20 @@ def main():
     train_loader, val_loader = data_builder.get_dataloaders()
 
     model = ModelFactory.create_model(config.active_model_config)
+    
+    # [TÙY CHỌN BỔ SUNG: KHÔI PHỤC CHECKPOINT NẾU BẬT FINE-TUNE]
+    if getattr(config.active_model_config, 'fine_tune', False):
+        checkpoint_path = os.path.join(
+            config.training.checkpoint_dir,
+            f"{config.active_model_config.model_name}_best.pth"
+        )
+        if os.path.exists(checkpoint_path):
+            print(f"[INFO] Loading best parameter for Fine-Tuning: {checkpoint_path}")
+            checkpoint = torch.load(checkpoint_path, map_location=device)
+            model.load_state_dict(checkpoint["model_state_dict"], strict=False) 
+        else:
+            print("[WARN] Cannot found checkpoint for Fine-Tuning. Training from scratch...")
+
     model = model.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -96,9 +111,13 @@ def main():
         model.parameters(),
         lr=config.training.learning_rate,
         weight_decay=config.training.weight_decay,
-    )
+    ) 
 
-    scaler = GradScaler()
+    scaler = GradScaler('cuda' if device.type == 'cuda' else 'cpu')
+    
+    scheduler = ReduceLROnPlateau(
+        optimizer, mode='min', factor=0.1, patience=3
+    )
 
     os.makedirs(config.training.checkpoint_dir, exist_ok=True)
 
@@ -117,7 +136,8 @@ def main():
         "train_acc": [],
         "val_loss": [],
         "val_acc": [],
-        "learning_rate": config.training.learning_rate,
+        "learning_rate": [], 
+        "initial_lr": config.training.learning_rate, 
         "model_name": config.active_model_config.model_name,
         "epochs": config.training.epochs,
     }
@@ -146,6 +166,10 @@ def main():
         print(
             f"Val   | loss: {val_loss:.4f} | acc: {val_acc:.4f}"
         )
+        
+        scheduler.step(val_loss)
+        current_lr = optimizer.param_groups[0]['lr']
+        history["learning_rate"].append(current_lr)
 
         history["train_loss"].append(train_loss)
         history["train_acc"].append(train_acc)
@@ -156,7 +180,6 @@ def main():
             json.dump(history, f, indent=4)
 
         if val_loss < best_val_loss:
-
             best_val_loss = val_loss
 
             checkpoint_path = os.path.join(
@@ -181,7 +204,6 @@ def main():
     print("\n[FINISHED] Training completed")
     print(f"[TIME] {total_time/60:.2f} minutes")
     print(f"[HISTORY] {history_file_path}")
-
 
 if __name__ == "__main__":
     main()
