@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from PIL import Image
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
-from .model_services.apps import WebappConfig
+from model_services.apps import ModelServicesConfig
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,14 +13,14 @@ from rest_framework.permissions import IsAuthenticated
 def predict_core(image_file):
     try:
         img = Image.open(image_file).convert("RGB")
-        img_tensor = WebappConfig.transforms(img).unsqueeze(0).to(WebappConfig.device)
+        img_tensor = ModelServicesConfig.transforms(img).unsqueeze(0).to(ModelServicesConfig.device)
         
         with torch.no_grad():
-            outputs = WebappConfig.model(img_tensor)
+            outputs = ModelServicesConfig.model(img_tensor)
             probabilities = F.softmax(outputs, dim=1)
             confidence, predicted_idx = torch.max(probabilities, 1)
             
-        class_name = WebappConfig.class_names[predicted_idx.item()]
+        class_name = ModelServicesConfig.class_names[predicted_idx.item()]
         conf_score = confidence.item() * 100
         return class_name, conf_score
     except Exception as e:

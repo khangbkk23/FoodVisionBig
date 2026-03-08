@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'model_services.apps.WebappConfig',
+    'model_services.apps.ModelServicesConfig',
 ]
 
 MIDDLEWARE = [
@@ -86,3 +86,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     )
 }
+
+ROOT_URLCONF = 'api.urls'
