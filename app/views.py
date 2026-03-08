@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from PIL import Image
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
-from .app import WebappConfig
+from .model_services.app import WebappConfig
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -42,8 +42,6 @@ def home_view(request):
         fs = FileSystemStorage()
         filename = fs.save(uploaded_file.name, uploaded_file)
         context['image_url'] = fs.url(filename)
-        
-        # Gọi hàm lõi
         class_name, conf_score = predict_core(uploaded_file)
         
         if class_name:

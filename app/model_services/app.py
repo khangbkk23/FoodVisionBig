@@ -7,7 +7,7 @@ from torchvision.transforms import v2
 
 class WebappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'webapp'
+    name = 'model_services'
     
     model = None
     device = None
