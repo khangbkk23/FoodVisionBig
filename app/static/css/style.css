@@ -1,0 +1,168 @@
+/* Sử dụng các phông chữ tiêu chuẩn học thuật và doanh nghiệp */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+
+:root {
+    --bg-color: #FAFAFA;       
+    --text-main: #111827;      
+    --text-muted: #4B5563;     
+    --accent-color: #0F172A;   
+    --border-color: #E5E7EB;   
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Header & Navigation */
+header {
+    border-bottom: 1px solid var(--border-color);
+    background-color: #FFFFFF;
+    padding: 1.5rem 0;
+}
+
+.nav-container {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    margin-left: 2.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Main Content Area */
+main {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    border-left: 3px solid var(--accent-color);
+    padding-left: 1rem;
+}
+
+/* Biểu mẫu phân tích */
+.analysis-panel {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px dashed #9CA3AF;
+    background-color: #F9FAFB;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: monospace;
+}
+
+.btn-submit {
+    background-color: var(--accent-color);
+    color: #FFFFFF;
+    border: none;
+    padding: 0.875rem 2rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #374151;
+}
+
+/* Khu vực hiển thị kết quả */
+.result-container {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.img-preview {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    padding: 0.25rem;
+    background-color: #FFFFFF;
+}
+
+.metrics-box {
+    border-top: 2px solid var(--accent-color);
+    padding-top: 1.5rem;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+.error-msg {
+    color: #B91C1C;
+    background-color: #FEF2F2;
+    padding: 1rem;
+    border: 1px solid #F87171;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
