@@ -8,3 +8,4 @@ Pillow
 PyYAML
 gunicorn
 tqdm
+whitenoise>=6.6.0
