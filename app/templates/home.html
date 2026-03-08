@@ -13,12 +13,25 @@
     {% endif %}
 
     <div class="upload-card">
-        <form method="POST" enctype="multipart/form-data">
+        <div id="client-error" class="error-msg" style="display: none;"></div>
+
+        <form method="POST" enctype="multipart/form-data" id="upload-form">
             {% csrf_token %}
-            <div class="file-input-wrapper">
-                <input type="file" name="food_image" accept="image/jpeg, image/png" required>
+            
+            <div class="drop-zone" id="drop-zone">
+                <span class="drop-zone__prompt" id="drop-prompt">
+                    Kéo thả dữ liệu hình ảnh vào đây hoặc nhấp để duyệt tệp (Tối đa 5MB)
+                </span>
+                
+                <input type="file" name="food_image" class="drop-zone__input" id="file-input" accept="image/jpeg, image/png" required>
+                
+                <div class="preview-container" id="preview-container">
+                    <img src="" alt="Bản xem trước dữ liệu" class="preview-image" id="preview-image">
+                    <div class="file-name" id="file-name"></div>
+                </div>
             </div>
-            <button type="submit" class="btn-primary">Phân loại</button>
+
+            <button type="submit" class="btn-primary" id="submit-btn">Dự đoán</button>
         </form>
     </div>
 
