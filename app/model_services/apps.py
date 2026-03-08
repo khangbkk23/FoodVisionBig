@@ -4,6 +4,7 @@ import sys
 import json
 from django.apps import AppConfig
 from torchvision.transforms import v2
+from django.conf import settings
 
 class WebappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -19,13 +20,18 @@ class WebappConfig(AppConfig):
             return
         print("[INFO] Initialting model in memory...")
         
-        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        PROJECT_ROOT = settings.BASE_DIR.parent
         
-        json_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'class_names.json')
+        if str(PROJECT_ROOT) not in sys.path:
+            sys.path.append(str(PROJECT_ROOT))
+            
+        sys.path.append(str(settings.BASE_DIR))
+        
+        json_path = os.path.join(settings.BASE_DIR, 'model_services', 'class_names.json')
         
         try:
             with open(json_path, "r", encoding="utf-8") as f:
-                WebappConfig.class_names = json.load(f)
+                self.class_names = json.load(f)
                 
             print(f"[SUCCESS] Class names loaded from {json_path}")
         except FileNotFoundError:
