@@ -1,4 +1,10 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
 torchvision
-django
+Django
 djangorestframework
 djangorestframework-simplejwt
+Pillow
+PyYAML
+gunicorn
+tqdm
