@@ -28,4 +28,4 @@ EXPOSE 7860
 WORKDIR /code/app
 RUN python manage.py collectstatic --noinput
 
-CMD ["sh", "-c", "gunicorn api.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"]
+CMD ["sh", "-c", "python manage.py migrate && gunicorn api.wsgi:application --bind 0.0.0.0:$PORT --workers 2"]
