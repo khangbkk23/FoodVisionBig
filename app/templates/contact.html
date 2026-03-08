@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="page-header">
+    <h1 class="page-title">Thông tin dự án</h1>
+    <p class="page-subtitle">
+        Dự án thử nghiệm triển khai mô hình Deep Learning vào một ứng dụng web để nhận diện món ăn từ hình ảnh.
+    </p>
+</header>
+
+<div class="upload-card" style="max-width: 500px; margin: 0 auto; text-align: left;">
+
+    <h3 style="margin-bottom: 1.5rem; font-family: 'Inter', sans-serif;">Thông tin người phát triển</h3>
+
+    <p><strong>Họ tên:</strong> Bùi Trần Duy Khang</p>
+    <p><strong>Ngành:</strong> Computer Science</p>
+    <p><strong>Trường:</strong> Trường Đại học Bách khoa - ĐHQG-HCM (HCMUT)</p>
+    <p><strong>Email:</strong> 
+        <a href="mailto:buitranduykhang2005@gmail.com">
+            buitranduykhang2005@gmail.com
+        </a>
+    </p>
+	<p><strong>GitHub:</strong> 
+        <a href="https://github.com/khangbkk23" target="_blank" rel='noopener'>
+            https://github.com/khangbkk23
+        </a>
+    </p>
+
+    <p><strong>LinkedIn:</strong> 
+        <a href="https://linkedin.com/in/khangbkk23" target="_blank" rel='noopener'>
+            https://linkedin.com/in/khangbkk23
+        </a>
+    </p>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-soft); margin: 2rem 0;">
+
+    <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+        Mô hình được huấn luyện trên bộ dữ liệu Food-101 và tích hợp vào ứng dụng web
+        để người dùng có thể tải ảnh lên và nhận kết quả dự đoán trực tiếp từ hệ thống.
+    </p>
+
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <header class="page-header">
+        <h1 class="page-title">Nhận diện món ăn từ hình ảnh</h1>
+        <p class="page-subtitle">Tải lên một bức ảnh món ăn, hệ thống sẽ dự đoán tên món dựa trên mô hình CNN được huấn luyện với bộ dữ liệu Food-101.</p>
+    </header>
+
+    {% if error %}
+    <div style="background-color: #FEF2F2; color: #991B1B; padding: 1rem; border-radius: 4px; border: 1px solid #F87171; margin-bottom: 2rem; text-align: center;">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="upload-card">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="file-input-wrapper">
+                <input type="file" name="food_image" accept="image/jpeg, image/png" required>
+            </div>
+            <button type="submit" class="btn-primary">Phân loại</button>
+        </form>
+    </div>
+
+    {% if image_url %}
+    <section class="result-section">
+        <h3 class="result-header">Báo cáo trích xuất</h3>
+        <div class="result-body">
+            <div class="image-preview">
+                <div class="data-label">Ảnh bạn đã tải lên</div>
+                <img src="{{ image_url }}" alt="Hình ảnh người dùng tải lên">
+            </div>
+            
+            <div class="analysis-data">
+                <div class="data-group">
+                    <div class="data-label">Món ăn được dự đoán</div>
+                    <div class="data-value">{{ prediction }}</div>
+                </div>
+                
+                <div class="data-group">
+                    <div class="data-label">Mức độ tin cậy</div>
+                    <div class="data-value confidence">{{ confidence }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+{% endblock %}

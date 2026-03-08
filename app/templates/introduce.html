@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<header class="page-header" style="text-align: left;">
+    <h1 class="page-title">Cách hệ thống hoạt động</h1>
+    <p class="page-subtitle" style="margin: 0;">
+        Tổng quan về mô hình và quy trình huấn luyện.
+    </p>
+</header>
+
+<div style="background: var(--bg-surface); padding: 3rem; border-radius: 8px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft);">
+
+    <h3 style="margin-bottom: 1rem;">Thông tin mô hình</h3>
+
+    <p><strong>Architecture:</strong> EfficientNet-B2</p>
+    <p><strong>Framework:</strong> PyTorch</p>
+    <p><strong>Dataset:</strong> Food-101 (~101,000 images)</p>
+    <p><strong>Số lớp phân loại:</strong> 101 món ăn</p>
+    <p><strong>Top-1 Accuracy:</strong> ~88%</p>
+    <p><strong>Inference Time:</strong> ~40ms / image</p>
+
+    <hr style="border:0; border-top:1px solid var(--border-soft); margin:2rem 0;">
+
+    <h3>1. Kiến trúc mô hình</h3>
+    <p>
+        Hệ thống sử dụng mô hình <strong>EfficientNet-B2</strong> để nhận diện món ăn từ hình ảnh.
+        Đây là một kiến trúc CNN hiện đại được thiết kế để đạt độ chính xác cao trong khi vẫn
+        giữ chi phí tính toán hợp lý. EfficientNet tối ưu đồng thời độ sâu của mạng,
+        số lượng kênh và độ phân giải đầu vào để trích xuất đặc trưng hình ảnh hiệu quả hơn.
+    </p>
+
+    <h3 style="margin-top: 2rem;">2. Quy trình huấn luyện</h3>
+    <p>
+        Mô hình được huấn luyện bằng phương pháp <strong>Transfer Learning</strong>.
+        Ban đầu, các lớp trích xuất đặc trưng từ mô hình pretrained trên ImageNet
+        được giữ nguyên và chỉ huấn luyện lớp phân loại cuối cùng.
+    </p>
+
+    <p>
+        Sau đó toàn bộ mạng được <strong>fine-tune</strong> trên bộ dữ liệu 
+        <strong>Food-101</strong> để cải thiện khả năng phân biệt giữa các món ăn.
+        Trong quá trình huấn luyện, hệ thống sử dụng <em>Label Smoothing</em>
+        để giảm overfitting và <em>ReduceLROnPlateau</em> để tự động điều chỉnh
+        learning rate khi mô hình bắt đầu hội tụ.
+    </p>
+
+</div>
+{% endblock %}

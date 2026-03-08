@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOD VISION BIG - Phân loại món ăn dựa trên hình ảnh</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="brand">FoodVision.</a>
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Phân tích</a>
+                <a href="{% url 'introduce' %}">Giới thiệu</a>
+                <a href="{% url 'contact' %}">Liên hệ</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        &copy; 2026 FoodVisionBig Project. All rights reserved.
+    </footer>
+
+</body>
+</html>
