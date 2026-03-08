@@ -1,2 +1,4 @@
 torchvision
 django
+djangorestframework
+djangorestframework-simplejwt
