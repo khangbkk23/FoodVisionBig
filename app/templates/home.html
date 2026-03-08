@@ -30,11 +30,13 @@
                     <div class="file-name" id="file-name"></div>
                 </div>
             </div>
-
             <button type="submit" class="btn-primary" id="submit-btn">Dự đoán</button>
         </form>
     </div>
-
+	<div id="loading-overlay" class="loading-overlay" 	aria-live="polite">
+    <div class="spinner"></div>
+    	<p>Đang phân tích hình ảnh...</p>
+	</div>
     {% if image_url %}
     <section class="result-section">
         <h3 class="result-header">Báo cáo trích xuất</h3>

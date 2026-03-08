@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropPrompt = document.getElementById("drop-prompt");
     const clientError = document.getElementById("client-error");
     const uploadForm = document.getElementById("upload-form");
+    const loadingOverlay = document.getElementById("loading-overlay");
 
     if (!dropZone || !fileInput || !uploadForm) return;
 
@@ -91,11 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
         previewImage.src = "";
     }
 
+    // Submit form
     uploadForm.addEventListener("submit", (e) => {
+
         if (fileInput.files.length === 0) {
             e.preventDefault();
             showError("Vui lòng tải lên một hình ảnh trước khi gửi.");
+            return;
         }
+
+        // Hiển thị spinner khi model predict
+        if (loadingOverlay) {
+            loadingOverlay.style.display = "flex";
+        }
+
     });
 
 });
