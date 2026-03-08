@@ -1,6 +1,6 @@
 FROM python:3.11.13-slim
 
-WORKDIR /app
+WORKDIR /code
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -25,7 +25,7 @@ ENV HOME=/home/user \
     PORT=7860
 
 EXPOSE 7860
-
+WORKDIR /code/app
 RUN python manage.py collectstatic --noinput
 
 CMD ["sh", "-c", "gunicorn api.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"]
