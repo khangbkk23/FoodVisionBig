@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from PIL import Image
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
-from .model_services.app import WebappConfig
+from .model_services.apps import WebappConfig
 
 from rest_framework.views import APIView
 from rest_framework.response import Response

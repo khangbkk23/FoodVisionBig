@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11.13-slim
 
 WORKDIR /app
 
@@ -13,9 +13,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-COPY . .
-
 RUN useradd -m -u 1000 user
+
+COPY --chown=user:user . .
+
 USER user
 
 ENV HOME=/home/user \
@@ -24,5 +25,7 @@ ENV HOME=/home/user \
     PORT=7860
 
 EXPOSE 7860
+
+RUN python manage.py collectstatic --noinput
 
 CMD ["sh", "-c", "gunicorn api.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"]
