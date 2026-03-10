@@ -37,7 +37,48 @@ h1, h2, h3, h4 {
     padding: 1.25rem 0;
     box-shadow: var(--shadow-sm);
 }
+/* === DANH SÁCH TOP 5 === */
+.prediction-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
 
+.prediction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.prediction-item:last-child {
+    border-bottom: none;
+}
+
+.pred-name {
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.pred-conf {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.prediction-item.top-1 .pred-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--accent-dark);
+}
+
+.prediction-item.top-1 .pred-conf {
+    font-size: 1.2rem;
+    color: var(--accent-dark);
+}
 .nav-container {
     max-width: 1000px;
     margin: 0 auto;

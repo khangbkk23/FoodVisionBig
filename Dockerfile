@@ -1,6 +1,6 @@
 FROM python:3.11.13-slim
 
-WORKDIR /code
+WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-
+RUN echo "Start installing dependencies..."
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
@@ -25,7 +25,9 @@ ENV HOME=/home/user \
     PORT=7860
 
 EXPOSE 7860
-WORKDIR /code/app
-RUN python manage.py collectstatic --noinput
+RUN echo "Running collectstatic..."
+WORKDIR /app/app
+RUN mkdir -p media && \
+    python manage.py collectstatic --noinput
 
-CMD ["sh", "-c", "python manage.py migrate && gunicorn api.wsgi:application --bind 0.0.0.0:$PORT --workers 2"]
+CMD ["sh", "-c", "python manage.py migrate && gunicorn api.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 4 --worker-class gthread --timeout 120"]
