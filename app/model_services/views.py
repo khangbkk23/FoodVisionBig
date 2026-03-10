@@ -18,23 +18,32 @@ def predict_core(image_file):
         with torch.no_grad():
             outputs = ModelServicesConfig.model(img_tensor)
             probabilities = F.softmax(outputs, dim=1)
-            confidence, predicted_idx = torch.max(probabilities, 1)
+            top5_prob, top5_indices = torch.topk(probabilities, 5, dim=1)
             
-        class_name = ModelServicesConfig.class_names[predicted_idx.item()]
-        conf_score = confidence.item() * 100
-        return class_name, conf_score
+        top_predictions = []
+        for i in range(5):
+            idx = top5_indices[0][i].item()
+            conf_score = top5_prob[0][i].item() * 100
+
+            raw_name = ModelServicesConfig.class_names[idx]
+            clean_name = raw_name.replace("_", " ").title()
+            
+            top_predictions.append({
+                'name': clean_name,
+                'confidence': f"{conf_score:.2f}%"
+            })
+            
+        return top_predictions
     except Exception as e:
         print(f"[ERR] Inference Logic Failed: {e}")
-        return None, 0.0
-    
+        return None
 
-# Web views
 def home_view(request):
-    context = {'prediction': None, 'confidence': None, 'image_url': None, 'error': None}
+    context = {'top_predictions': None, 'image_url': None, 'error': None}
     
     if request.method == 'POST':
         if 'food_image' not in request.FILES:
-            context['error'] = "Please upload an image file you want to classify."
+            context['error'] = "Vui lòng đính kèm tệp hình ảnh hợp lệ."
             return render(request, 'home.html', context)
             
         uploaded_file = request.FILES['food_image']
@@ -42,13 +51,13 @@ def home_view(request):
         fs = FileSystemStorage()
         filename = fs.save(uploaded_file.name, uploaded_file)
         context['image_url'] = fs.url(filename)
-        class_name, conf_score = predict_core(uploaded_file)
         
-        if class_name:
-            context['prediction'] = class_name.replace("_", " ").title()
-            context['confidence'] = f"{conf_score:.2f}%"
+        top_predictions = predict_core(uploaded_file)
+        
+        if top_predictions:
+            context['top_predictions'] = top_predictions
         else:
-            context['error'] = "There was an error processing the image. Please try again with a different image."
+            context['error'] = "Đã xảy ra lỗi trong quá trình phân giải ma trận hình ảnh."
             
     return render(request, 'home.html', context)
 
